@@ -96,4 +96,13 @@ const sentencesArray = [
       wordsContainer.innerHTML = '';
       blanks.innerHTML = '';
       answerFeedback.innerHTML = '';
+      // Do I need submitClicked = false;?
+
+      // Reset state
+      blanks.className = 'blank';
+      nextButton.classList.add("hide");
+      submit.classList.remove("hide");
+      answerFeedback.classList.remove("feedback-wrong");
+      answerFeedback.classList.remove("feedback-correct");
   }
+
