@@ -62,7 +62,8 @@ const gameContainer = $(".game-container");
 const questionContainer = $("#question-container");
 const nextButton = $("#next-button");
 const blanks = $('.blanks');
-const wordsContainer = $('.wordsContainer');
+const wordsContainer = $('#words-container');
+console.log("wordsContainer: ", wordsContainer);
 const feedback = $("#answerFeedback");
 const submit = $("#submit");
 let dragged = null;
@@ -77,10 +78,11 @@ function startGame(evt){
 evt.preventDefault();   
 // Call helper functions
 // Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
-
-
-
+resetApp()
 // Call function to display shuffled words
+const sentenceObject = getSentenceObject(0);
+console.log("Sentence object: ", sentenceObject);
+displayShuffledWords(sentenceObject);
 // add event listener for drag and drop
 // add event listener for submit/finish button
 // Hide submit button
@@ -97,6 +99,7 @@ evt.preventDefault();
 function resetApp(){
     wordsContainer.innerHTML = '';
     blanks.innerHTML = '';
+
     answerFeedback.innerHTML = '';
     submitClicked = false;
 
@@ -111,21 +114,26 @@ function resetApp(){
 }
 
 function getSentenceObject(IndexOfsentenceObj){
+    console.log(sentencesArray[IndexOfsentenceObj]);
     return sentencesArray[IndexOfsentenceObj];
 }
 
-function displayShuffledWords(sentenceObject){
-    sentenceObject.words.forEach((word) => {
+function displayShuffledWords(sentenceObj){
+    console.log("sentenceObj in display app: ", sentenceObj);
+    sentenceObj.words.forEach((word) => {
     const span = document.createElement('span');
     span.className = "word";
-    span.id= word.id;
+    span.id = word.id;
     span.textContent = word.text;
     span.draggable = true;
     span.addEventListener('dragstart', (event) => {
         if(dragged === null){
+            console.log(dragged);
             dragged = event.target;
         }
     });
     wordsContainer.appendChild(span);
+    console.log("first child: ", wordsContainer.firstChild);
+    
     });
 }
