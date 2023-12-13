@@ -12,6 +12,23 @@ position: relative;
 width: 100%;
 height: 1.75rem;           
 }
+.game-container {
+    min-width: 16.5rem; 
+    max-width: 31rem; 
+    background-color: whitesmoke;
+    border-radius: 1rem; 
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  
+    gap: 1rem;
+    padding: 1.25rem; 
+    font-size: 1.5rem;
+    border: 1px solid rgb(207, 206, 206); 
+    /*vv avoid text from words to be selected and dragged vv*/
+    user-select: none; 
+    
+}
 
 .btn {
     background-color: hsl(53, 97%, 50%);
@@ -30,4 +47,17 @@ height: 1.75rem;
     padding-left: 4rem;
     border-radius: 0.3rem; 
     margin-right: 0.5rem; 
+}
+
+#words-container {
+    display: flex;
+    width: 75%;
+    padding: 1rem;
+    border: 1px solid rgb(225, 225, 225);
+    border-radius: 5px;
+    gap: .5rem;
+}
+
+#words-container.hover {
+    background-color: hsl(60, 8%, 92%);
 }
