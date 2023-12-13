@@ -55,22 +55,45 @@ const sentencesArray = [
   ];
 
   // Create variables to manipulate the DOM
+  const $ = document.querySelector;
+  const startButton = $("#start-button"); 
+  const instructions = $("#instructions");
+  const gameContainer = $(".game-container");
+  const questionContainer = $("#question-container");
+  const nextButton = $("#next-button");
+  const blanks = $('.blanks');
+  const wordsContainer = $('.wordsContainer');
+  const feedback = $("#answerFeedback");
 
   //Add event listener to the start button to start the game
+                        
+  startButton.addEventListener("click", startGame);
+      
 
   //Declare the main function of the app
   function startGame(evt){
-    // Reset app (hide feedback and next button show submit button)
+    evt.preventDefault();   
     // Call helper functions
-    // display shuffled words
+    // Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
+
+
+
+    // Call function to display shuffled words
     // add event listener for drag and drop
-    // add event listener for submit button
+    // add event listener for submit/finish button
     // Hide submit button
     
-    // Validate answer
-    // Provide feedback
+    // Call function to validate answer
+        // Concatenate id of the words in the user's answer. ParseInt and compare to OrderOfwords of the current object
+        // Provide feedback
+
     // Show next button
     // add event listener for the next button
-    //  
+        
   }
   //Declare helper functions
+  function resetApp(){
+      wordsContainer.innerHTML = '';
+      blanks.innerHTML = '';
+      answerFeedback.innerHTML = '';
+  }
