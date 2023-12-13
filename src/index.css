@@ -20,7 +20,8 @@ height: 1.75rem;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;  
+    justify-content: center;
+      
     gap: 1rem;
     padding: 1.25rem; 
     font-size: 1.5rem;
@@ -31,7 +32,7 @@ height: 1.75rem;
 }
 
 .btn {
-    background-color: hsl(53, 97%, 50%);
+    background-color: rgb(251, 222, 4);
     color: black;
     outline: none;
     outline-color: currentcolor;
@@ -39,7 +40,12 @@ height: 1.75rem;
     outline-width: medium;
 }
 
-.blank {
+.btn:hover {
+    background-color: rgb(221, 196, 2);
+    border-color: black;
+    color: black;
+}
+.blanks {
     background-color: rgb(228, 227, 227);
     min-height: 4rem; 
     border-bottom: 1px solid rgb(34, 33, 33); 
@@ -60,4 +66,25 @@ height: 1.75rem;
 
 #words-container.hover {
     background-color: hsl(60, 8%, 92%);
+}
+
+.hide {
+    display: none;
+}
+
+.feedback-wrong {
+    font-size: 1rem; 
+    color: rgb(219, 32, 8);
+    font-weight: bolder;
+}
+
+.feedback-correct {
+    font-size: 1rem; 
+    color: rgb(0, 107, 14);
+    font-weight: bolder;
+}
+
+#points {
+    font-size: 1rem; 
+    background-color: rgb(255, 255, 255);
 }
