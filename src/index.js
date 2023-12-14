@@ -61,28 +61,33 @@ const instructions = $("#instructions");
 const gameContainer = $(".game-container");
 const questionContainer = $("#question-container");
 const nextButton = $("#next-button");
+const blanksContainer = $(".blanks-container");
 const blanks = $('.blanks');
+
 const wordsContainer = $('#words-container');
-console.log("wordsContainer: ", wordsContainer);
 const feedback = $("#answerFeedback");
 const submit = $("#submit");
 let dragged = null;
+let numberOfBlanks = null;
+let questionNumber = 0;
 
 //Add event listener to the start button to start the game
-                
+submit.classList.add("hide");                
 startButton.addEventListener("click", startGame);
       
 
 //Declare the main function of the app
 function startGame(evt){
+startButton.classList.add("hide");
 evt.preventDefault();   
 // Call helper functions
 // Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
 resetApp()
 // Call function to display shuffled words
-const sentenceObject = getSentenceObject(0);
+const sentenceObject = getSentenceObject(questionNumber);
 console.log("Sentence object: ", sentenceObject);
 displayShuffledWords(sentenceObject);
+
 // add event listener for drag and drop
 // add event listener for submit/finish button
 // Hide submit button
@@ -93,23 +98,24 @@ displayShuffledWords(sentenceObject);
 
 // Show next button
 // add event listener for the next button
-    
+    questionNumber++;
 }
+
 //Declare helper functions
 function resetApp(){
-    wordsContainer.innerHTML = '';
-    blanks.innerHTML = '';
-
-    answerFeedback.innerHTML = '';
-    submitClicked = false;
-
     // Reset state
-    blanks.className = 'blanks';
+    wordsContainer.innerHTML = '';
+    if(blanks){
+        console.log("blanks: ", blanks);
+        blanks.innerHTML = '';
+        blanks.className = 'blanks';
+    }
+    answerFeedback.innerHTML = '';
+    submitClicked = false;    
     nextButton.classList.add("hide");
-    submit.classList.remove("hide");
+    
     answerFeedback.classList.remove("feedback-wrong");
     answerFeedback.classList.remove("feedback-correct");
-    // Reset dragged variable
     dragged = null;
 }
 
@@ -117,23 +123,28 @@ function getSentenceObject(IndexOfsentenceObj){
     console.log(sentencesArray[IndexOfsentenceObj]);
     return sentencesArray[IndexOfsentenceObj];
 }
-
+//Declare a function to display shuffled words
 function displayShuffledWords(sentenceObj){
     console.log("sentenceObj in display app: ", sentenceObj);
     sentenceObj.words.forEach((word) => {
-    const span = document.createElement('span');
-    span.className = "word";
-    span.id = word.id;
-    span.textContent = word.text;
-    span.draggable = true;
-    span.addEventListener('dragstart', (event) => {
-        if(dragged === null){
-            console.log(dragged);
-            dragged = event.target;
-        }
+        const spanWord = document.createElement('span');
+        spanWord.className = "word";
+        spanWord.id = word.id;
+        spanWord.textContent = word.text;
+        spanWord.draggable = true;
+        spanWord.addEventListener('dragstart', (event) => {
+            if(dragged === null){
+                console.log(dragged);
+                dragged = event.target;
+            }
+        });
+        wordsContainer.appendChild(spanWord);
+
+        // Display blanks
+        const spanBlank = document.createElement("span");
+        spanBlank.className = "blanks";
+        blanksContainer.appendChild(spanBlank);
+        console.log("first child: ", wordsContainer.firstChild); 
     });
-    wordsContainer.appendChild(span);
-    console.log("first child: ", wordsContainer.firstChild);
-    
-    });
+    submit.classList.remove("hide");
 }
