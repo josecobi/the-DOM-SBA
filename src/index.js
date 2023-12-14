@@ -88,17 +88,20 @@ const sentenceObject = getSentenceObject(questionNumber);
 console.log("Sentence object: ", sentenceObject);
 displayShuffledWords(sentenceObject);
 
-// add event listener for drag and drop
+// add event listener for drag and drop to the words
+    //transfer data to target
+//make blanks a droppable zone
+    //when a word is dropped, transfer data to the blank
+
 // add event listener for submit/finish button
 // Hide submit button
 
 // Call function to validate answer
     // Concatenate id of the words in the user's answer. ParseInt and compare to OrderOfwords of the current object
     // Provide feedback
-
+    questionNumber++;
 // Show next button
 // add event listener for the next button
-    questionNumber++;
 }
 
 //Declare helper functions
