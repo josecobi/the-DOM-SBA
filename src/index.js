@@ -24,7 +24,7 @@ const sentencesArray = [
     },
     {
         orderOfWords: 123,
-        hint: "We're going to...",
+        hint: "The man runs",
         words: [
             { id: 3, text: "corre" },
             { id: 1, text: "el" },
@@ -33,7 +33,7 @@ const sentencesArray = [
     },
     {
         orderOfWords: 123,
-        hint: "En la playa",
+        hint: "The kid plays",
         words: [
             { id: 3, text: "juega" },
             { id: 2, text: "niño" },
@@ -42,9 +42,9 @@ const sentencesArray = [
     },
     {
         orderOfWords: 12345,
-        hint: "Cena familiar",
+        hint: "The woman reads...",
         words: [
-            { id: 1, text: "la" },
+            { id: 1, text: "la"},
             { id: 3, text: "lee" },
             { id: 5, text: "libro" },
             { id: 2, text: "mujer" },
@@ -69,10 +69,13 @@ const feedback = $("#answerFeedback");
 const submit = $("#submit");
 let dragged = null;
 let numberOfBlanks = null;
-let questionNumber = 0;
+let sentenceNumber = 0;
 
 //Add event listener to the start button to start the game
-submit.classList.add("hide");                
+submit.classList.add("hide");
+wordsContainer.classList.add("hide");    
+
+//run the main function
 startButton.addEventListener("click", startGame);
       
 
@@ -84,12 +87,14 @@ evt.preventDefault();
 // Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
 resetApp()
 // Call function to display shuffled words
-const sentenceObject = getSentenceObject(questionNumber);
+const sentenceObject = getSentenceObject(sentenceNumber);
 console.log("Sentence object: ", sentenceObject);
 displayShuffledWords(sentenceObject);
-
+droppableBlanks()
 // add event listener for drag and drop to the words
+dragWord()
     //transfer data to target
+
 //make blanks a droppable zone
     //when a word is dropped, transfer data to the blank
 
@@ -99,7 +104,7 @@ displayShuffledWords(sentenceObject);
 // Call function to validate answer
     // Concatenate id of the words in the user's answer. ParseInt and compare to OrderOfwords of the current object
     // Provide feedback
-    questionNumber++;
+    
 // Show next button
 // add event listener for the next button
 }
@@ -126,28 +131,84 @@ function getSentenceObject(IndexOfsentenceObj){
     console.log(sentencesArray[IndexOfsentenceObj]);
     return sentencesArray[IndexOfsentenceObj];
 }
+
 //Declare a function to display shuffled words
 function displayShuffledWords(sentenceObj){
-    console.log("sentenceObj in display app: ", sentenceObj);
-    sentenceObj.words.forEach((word) => {
-        const spanWord = document.createElement('span');
-        spanWord.className = "word";
-        spanWord.id = word.id;
-        spanWord.textContent = word.text;
-        spanWord.draggable = true;
-        spanWord.addEventListener('dragstart', (event) => {
-            if(dragged === null){
-                console.log(dragged);
-                dragged = event.target;
-            }
-        });
-        wordsContainer.appendChild(spanWord);
+    // if the sentence counter's value is smaller than the number of objects(sentences) in the array of sentences, display the next sentence
+    if(sentenceNumber < sentencesArray.length){
+        //Iterate through words in the array words within the sentence object
+        sentenceObj.words.forEach((word) => {
+            //create a new span in the words container and set the id and text content
+            const spanWord = document.createElement('span');
+            spanWord.className = "word";
+            spanWord.id = word.id;
+            spanWord.textContent = word.text;
+            // make it draggable
+            spanWord.draggable = true;
+            // add event listener to the word
+            spanWord.addEventListener('dragstart', (event) => {
+                if(dragged === null){
+                    console.log(dragged);
+                    //update the dragged variable in order to use it in other functions
+                    dragged = event.target;
+                }
+            });
+            // Add the word to the word container
+            wordsContainer.appendChild(spanWord);
 
-        // Display blanks
-        const spanBlank = document.createElement("span");
-        spanBlank.className = "blanks";
-        blanksContainer.appendChild(spanBlank);
-        console.log("first child: ", wordsContainer.firstChild); 
+            // Display blanks
+            const spanBlank = document.createElement("span");
+            spanBlank.className = "blanks";
+            blanksContainer.appendChild(spanBlank);
+             
+        });
+        // show the submit button
+        submit.classList.remove("hide");
+        sentenceNumber++;
+    }
+
+    // else {
+    //     // Handle end of questions
+    //     wordsContainer.classList.add("hide");
+    //     submit.classList.add("hide");
+    //     instructions.classList.add("hide");
+    //     blanks.classList.add("hide");
+    //     document.querySelector(".end-of-game-message").classList.remove("hide");
+    //     document.querySelector(".game-score").textContent = "Your Score: " +  (currentTotalPoints * 100 / questionsSelected.length) + "%";
+    //     console.log("END OF GAME!");                            
+    // }
+
+}
+
+function dragWord() {
+    // Convert wordsContainer's children(Span) into an array of html elements using the spread operator [...parent.children] so I can iterate through them
+   
+    const wordsArray = [...wordsContainer.children];
+
+    wordsArray.forEach((word) => {
+        word.addEventListener("dragstart", (event) => {
+           dragged = event.target;
+           console.log(dragged);
+           dragged.draggable = true;
+           event.dataTransfer.setData("id", dragged.id); 
+        })
     });
-    submit.classList.remove("hide");
+   
+}
+
+
+function droppableBlanks() {
+    const blanksArray= [...blanksContainer.children];
+
+    blanksArray.forEach((blank) => {
+        blank.addEventListener('dragover', event => {
+            event.preventDefault()
+            const id = event.dataTransfer.getData('id');
+            // if(event.target.className === 'blanks' && !blank.firstChild){
+                blank.appendChild(dragged);
+                blank.classList.add('dropped');
+            // }
+            console.log("blank droppable function: ", blank);
+        });
+    });
 }
