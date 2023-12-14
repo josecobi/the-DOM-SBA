@@ -19,17 +19,17 @@
                 <div id="question-container" class="##hide">
                     <span id="points"></span>
                     <h6 id="instructions">Order the words to make a sentece:</h6>
-                    <p><span class="blanks"></span> <span class="blanks"></span><span class="blanks"></span></p>
+                    <div class="blanks-container"></div>
                     <p id="answerFeedback"></p>
-                    <div id="words-container"><p>Ella</p><p>come</p><p>fruta</p></div>
+                    <div id="words-container"></div>
                     <div class="game-completed-message hide"><p>Game completed!</p><p class="game-score"></p></div>
-                    <button type="submit" id="submit" class="submit btn btn-primary">Submit</button>
-                    <button type="button" class="next-button btn btn-primary hide" id="next-button">Next</button>                
+                    <div class="button-container">
+                        <button type="submit" id="submit" class="submit btn btn-primary">Submit</button>
+                        <button type="button" class="next-button btn btn-primary hide" id="next-button">Next</button> 
+                        <button class="btn btn-primary" id="start-button">Start</button>
+                    </div>                 
                 </div>
             </form>
-            <div class="start">
-                <button class="btn btn-primary" id="start-button">Start</button>
-            </div>
         </div>
     </main>
     <footer id="footer" class="text-body-secondary py-5">
