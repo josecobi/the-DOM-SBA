@@ -70,6 +70,7 @@ const submit = $("#submit");
 let dragged = null;
 let numberOfBlanks = null;
 let sentenceNumber = 0;
+const sentenceObject = getSentenceObject(sentenceNumber);
 
 //Add event listener to the start button to start the game
 submit.classList.add("hide");
@@ -87,24 +88,25 @@ evt.preventDefault();
 // Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
 resetApp()
 // Call function to display shuffled words
-const sentenceObject = getSentenceObject(sentenceNumber);
-console.log("Sentence object: ", sentenceObject);
+// const sentenceObject = getSentenceObject(sentenceNumber);
 displayShuffledWords(sentenceObject);
-droppableBlanks()
+
 // add event listener for drag and drop to the words
 dragWord()
     //transfer data to target
 
 //make blanks a droppable zone
     //when a word is dropped, transfer data to the blank
-
+droppableBlanks()
+    
 // add event listener for submit/finish button
 // Hide submit button
 
 // Call function to validate answer
     // Concatenate id of the words in the user's answer. ParseInt and compare to OrderOfwords of the current object
-    // Provide feedback
     
+    // Provide feedback
+
 // Show next button
 // add event listener for the next button
 }
@@ -114,7 +116,7 @@ function resetApp(){
     // Reset state
     wordsContainer.innerHTML = '';
     if(blanks){
-        console.log("blanks: ", blanks);
+        // console.log("blanks: ", blanks);
         blanks.innerHTML = '';
         blanks.className = 'blanks';
     }
@@ -126,7 +128,7 @@ function resetApp(){
     answerFeedback.classList.remove("feedback-correct");
     dragged = null;
 }
-
+//Get the object that contains the information of the sentence located at the index provided of the array.
 function getSentenceObject(IndexOfsentenceObj){
     console.log(sentencesArray[IndexOfsentenceObj]);
     return sentencesArray[IndexOfsentenceObj];
@@ -148,7 +150,7 @@ function displayShuffledWords(sentenceObj){
             // add event listener to the word
             spanWord.addEventListener('dragstart', (event) => {
                 if(dragged === null){
-                    console.log(dragged);
+                    // console.log(dragged);
                     //update the dragged variable in order to use it in other functions
                     dragged = event.target;
                 }
@@ -179,7 +181,7 @@ function displayShuffledWords(sentenceObj){
     // }
 
 }
-
+// Declare function to nake words draggable
 function dragWord() {
     // Convert wordsContainer's children(Span) into an array of html elements using the spread operator [...parent.children] so I can iterate through them
    
@@ -188,27 +190,62 @@ function dragWord() {
     wordsArray.forEach((word) => {
         word.addEventListener("dragstart", (event) => {
            dragged = event.target;
-           console.log(dragged);
            dragged.draggable = true;
+        //    transfer and set data from the original element to the event
            event.dataTransfer.setData("id", dragged.id); 
         })
     });
    
 }
 
-
+// Declare function to make blanks droppable 
 function droppableBlanks() {
+    // children into an array
     const blanksArray= [...blanksContainer.children];
 
     blanksArray.forEach((blank) => {
         blank.addEventListener('dragover', event => {
             event.preventDefault()
-            const id = event.dataTransfer.getData('id');
-            // if(event.target.className === 'blanks' && !blank.firstChild){
+            
+            if(event.target.className === 'blanks' && !blank.firstChild){
                 blank.appendChild(dragged);
                 blank.classList.add('dropped');
-            // }
-            console.log("blank droppable function: ", blank);
+                event.dataTransfer.getData('id', dragged.id);
+                dragged.classList.add('dropped');
+            }
+            
         });
+           
     });
+   
+}
+// Declare a function to get the ids from the words in the answer provided by the user
+//Those ids will be used to validate the answer in a different function
+function getIdsFromAnswer (){
+    const blanksArray= [...blanksContainer.children];
+    let answerCode = "";
+    blanksArray.forEach((blank) => {
+        answerCode += blank.firstChild.id;
+  
+    })
+    // console.log(`answ code from getidapp: `, answerCode);
+    return answerCode;
+}
+// Declare function to validate answer
+function validateAnswer(){
+    const answerKey = sentenceObject.orderOfWords;
+    const userAnswer = getIdsFromAnswer ();
+    if(answerKey === userAnswer){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+function submitAnswer() {
+    submit.addEventListener('click', (event) => {
+        submit.classList.add('hide');
+        validateAnswer()
+    })
 }
