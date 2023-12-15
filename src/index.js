@@ -244,7 +244,7 @@ function displayShuffledWords(sentenceObj){
        
         console.log("GAME OVER");
      
-        // Reload the window to play again (2 window methods)
+        // Reload the window to play again
         const confirmed = window.confirm("GAME OVER. Click OK play again.");
         if(confirmed){
             window.location.reload();
@@ -298,7 +298,8 @@ function droppableBlanks() {
                 blank.appendChild(dragged);
                 blank.classList.add('dropped');
                 dragged.classList.add('dropped');
-                blank.firstChild.setAttribute("draggable", "false");                
+                blank.setAttribute.draggable = "false";
+                
                 
             
                 if(!wordsContainer.firstChild){
@@ -353,6 +354,7 @@ function validateAnswer(){
 function submitAnswer() {
     // add event listener to the submit button
     submit.addEventListener('click', (event) => {
+        event.preventDefault();
         submit.classList.add('hide');
         dislplayFeedback();   
         nextButton.classList.remove('hide');      
