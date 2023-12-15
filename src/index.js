@@ -84,6 +84,7 @@ let sentenceNumber = 0;
 let sentenceObject = getSentenceObject(sentenceNumber);
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>LOGIC FOR THE USERNAME FORM<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+startButton.classList.add('hide');
 submitNameButton.addEventListener("click", (event) => {
     console.log("clicked");
     validateUsername();
@@ -105,6 +106,7 @@ function validateUsername() {
       usernameField.focus();
       return false;
     }
+    
     
     let unique = [];
     chars.forEach((char) => {
@@ -137,7 +139,8 @@ function validateUsername() {
     
     errorDisplay.style.display = "none";
     
-    userNameDisplay.textContent = `Welcome, ${userName.value}! Are you ready to show your prowess in Spanish?`;
+    userNameDisplay.textContent = `Welcome, ${usernameField.value}! Are you ready to show your prowess in Spanish?`;
+    startButton.classList.remove('hide');
    
     return nameVal;
 }
@@ -165,6 +168,7 @@ function startGame(evt){
     droppableBlanks()
     submitAnswer()   
     nextSentence()
+    
 }
 
 
@@ -184,8 +188,9 @@ function resetAppForNextSentence(){
     
     answerFeedback.classList.remove("feedback-wrong");
     answerFeedback.classList.remove("feedback-correct");
-    dragged = null;
+    
     displayShuffledWords(sentenceObject);
+    dragged = null;
 }
 
 
@@ -221,7 +226,7 @@ function displayShuffledWords(sentenceObj){
             const spanBlank = document.createElement("span");
             spanBlank.className = "blanks";
             blanksContainer.appendChild(spanBlank);
-             
+            
         });
       
         droppableBlanks();
@@ -239,7 +244,7 @@ function displayShuffledWords(sentenceObj){
        
         console.log("GAME OVER");
      
-        // Reload the window to play again
+        // Reload the window to play again (2 window methods)
         const confirmed = window.confirm("GAME OVER. Click OK play again.");
         if(confirmed){
             window.location.reload();
@@ -273,10 +278,10 @@ function droppableBlanks() {
     
     // Allow the blanks to receive elements dropped on them
     blanksArray.forEach((blank) => {
+         //avoid the answer to be dragged after being dropped
+         
         blank.addEventListener('dragover', event => {
             event.preventDefault();
-            if (event.target.className === 'blanks' && !blank.firstChild) {
-            }
         });
 
         // Prevent the blank from cancelling the drop action
@@ -293,15 +298,17 @@ function droppableBlanks() {
                 blank.appendChild(dragged);
                 blank.classList.add('dropped');
                 dragged.classList.add('dropped');
-                // reset the dragged element so it can be used again
-                dragged = null;
-                //avoid the answer to be dragged after being dropped
+                blank.firstChild.setAttribute("draggable", "false");                
+                
             
                 if(!wordsContainer.firstChild){
-                        // show the submit button
-                        submit.classList.remove("hide");
+                    // show the submit button
+                    submit.classList.remove("hide");
                 }
-                }
+            }
+           
+                // reset the dragged element so it can be used again
+                dragged = null;
            
         });
         
@@ -374,9 +381,10 @@ function nextSentence() {
     nextButton.addEventListener('click', (event) => {        
         sentenceNumber++;
         sentenceObject = getSentenceObject(sentenceNumber);
-        displayShuffledWords(sentenceObject);
+        // displayShuffledWords(sentenceObject);
         nextButton.classList.add('hide');
         resetAppForNextSentence();
+        
 
     });
 }
