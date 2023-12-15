@@ -157,8 +157,10 @@ function startGame(evt){
     usernameFormContainer.classList.add('hide'); 
     userNameDisplay.classList.add('hide');    
     startButton.classList.add("hide");
+
+    // Call helpers functions
     evt.preventDefault();   
-    resetApp()
+    resetAppForNextSentence()
     dragWord()
     droppableBlanks()
     submitAnswer()   
@@ -167,7 +169,7 @@ function startGame(evt){
 
 
 //Declare helper functions
-function resetApp(){
+function resetAppForNextSentence(){
     // Reset state
     wordsContainer.innerHTML = '';
     wordsContainer.classList.remove('hide');
@@ -221,8 +223,7 @@ function displayShuffledWords(sentenceObj){
             blanksContainer.appendChild(spanBlank);
              
         });
-        // show the submit button
-        submit.classList.remove("hide");
+      
         droppableBlanks();
 
     }
@@ -235,10 +236,15 @@ function displayShuffledWords(sentenceObj){
         blanksContainer.classList.add("hide");
        
         feedback.classList.add('hide');
-        window.blur();
-        alert("GAME OVER");
-        
-        console.log("GAME OVER");                            
+       
+        console.log("GAME OVER");
+     
+        // Reload the window to play again
+        const confirmed = window.confirm("GAME OVER. Click OK play again.");
+        if(confirmed){
+            window.location.reload();
+        }
+                                    
     }
 
 }
@@ -264,6 +270,7 @@ function dragWord() {
 // Declare a function to make blanks droppable and allow the user to drop words in the blanks
 function droppableBlanks() {
     const blanksArray = [...blanksContainer.children];
+    
     // Allow the blanks to receive elements dropped on them
     blanksArray.forEach((blank) => {
         blank.addEventListener('dragover', event => {
@@ -288,9 +295,18 @@ function droppableBlanks() {
                 dragged.classList.add('dropped');
                 // reset the dragged element so it can be used again
                 dragged = null;
-            }
+                //avoid the answer to be dragged after being dropped
+            
+                if(!wordsContainer.firstChild){
+                        // show the submit button
+                        submit.classList.remove("hide");
+                }
+                }
+           
         });
+        
     });
+    
 }
 
 
@@ -360,7 +376,7 @@ function nextSentence() {
         sentenceObject = getSentenceObject(sentenceNumber);
         displayShuffledWords(sentenceObject);
         nextButton.classList.add('hide');
-        resetApp();
+        resetAppForNextSentence();
 
     });
 }
