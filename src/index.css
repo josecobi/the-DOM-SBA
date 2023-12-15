@@ -78,7 +78,7 @@ justify-content: center;
     color: whitesmoke;
     border-radius: 0.3rem; 
     padding: 0.3rem;
-    margin: 0.5rem; 
+     
     cursor: move;
     font-size: small;
 }
@@ -106,9 +106,9 @@ justify-content: center;
 
 .dropped {
     display: inline-block;
-    padding: 0.03rem 0.03rem; 
-    min-width: 3rem; 
+    padding: 0; 
+    min-width: 2rem; 
     min-height: 1rem;
     font-size: large;
-    margin: 0;
+  
 }
