@@ -63,7 +63,6 @@ const questionContainer = $("#question-container");
 const nextButton = $("#next-button");
 const blanksContainer = $(".blanks-container");
 const blanks = $('.blanks');
-
 const wordsContainer = $('#words-container');
 const feedback = $("#answerFeedback");
 const submit = $("#submit");
@@ -85,33 +84,10 @@ startButton.addEventListener("click", startGame);
 function startGame(evt){
 startButton.classList.add("hide");
 evt.preventDefault();   
-// Call helper functions
-// Reset app (hide feedback and next button show submit button. If user run out of questions display finish button instead of submit)
 resetApp()
-// Call function to display shuffled words
-// const sentenceObject = getSentenceObject(sentenceNumber);
-// displayShuffledWords(sentenceObject);
-
-// add event listener for drag and drop to the words
 dragWord()
-    //transfer data to target
-
-//make blanks a droppable zone
-    //when a word is dropped, transfer data to the blank
 droppableBlanks()
-
-submitAnswer()
-    
-// add event listener for submit/finish button
-// Hide submit button
-
-// Call function to validate answer
-    // Concatenate id of the words in the user's answer. ParseInt and compare to OrderOfwords of the current object
-    
-    // Provide feedback
-
-// Show next button
-// add event listener for the next button
+submitAnswer()   
 nextSentence()
 }
 
@@ -120,7 +96,6 @@ function resetApp(){
     // Reset state
     wordsContainer.innerHTML = '';
     wordsContainer.classList.remove('hide');
-    console.log("resetApp wordsCont; ", wordsContainer);
     if (blanksContainer.firstChild) {
         // Remove all child nodes from the blanks container
         while (blanksContainer.firstChild) {
@@ -156,7 +131,6 @@ function displayShuffledWords(sentenceObj){
             // add event listener to the word
             spanWord.addEventListener('dragstart', (event) => {
                 if(dragged === null){
-                    // console.log(dragged);
                     //update the dragged variable in order to use it in other functions
                     dragged = event.target;
                 }
@@ -172,7 +146,6 @@ function displayShuffledWords(sentenceObj){
         });
         // show the submit button
         submit.classList.remove("hide");
-        // sentenceNumber++;
         droppableBlanks();
 
     }
@@ -182,10 +155,11 @@ function displayShuffledWords(sentenceObj){
         wordsContainer.classList.add("hide");
         submit.classList.add("hide");
         instructions.classList.add("hide");
-        blanks.classList.add("hide");
-        gameOverMessage.classList.remove("hide");
-        document.querySelector(".game-score").textContent = "Your Score: " +  (currentTotalPoints * 100 / questionsSelected.length) + "%";
-        console.log("END OF GAME!");                            
+        blanksContainer.classList.add("hide");
+       
+        feedback.classList.add('hide');
+        alert("GAME OVER");
+        console.log("GAME OVER");                            
     }
 
 }
@@ -206,55 +180,62 @@ function dragWord() {
    
 }
 
-
+// Declare a function to make blanks droppable and allow the user to drop words in the blanks
 function droppableBlanks() {
     const blanksArray = [...blanksContainer.children];
-
+    // Allow the blanks to receive elements dropped on them
     blanksArray.forEach((blank) => {
         blank.addEventListener('dragover', event => {
             event.preventDefault();
             if (event.target.className === 'blanks' && !blank.firstChild) {
-                blank.classList.add('droppable'); // Optionally, add a visual cue for a droppable area
             }
         });
 
+        // Prevent the blank from cancelling the drop action
         blank.addEventListener('dragleave', event => {
             event.preventDefault();
-            blank.classList.remove('droppable'); // Remove the visual cue when leaving the droppable area
         });
 
+        // Listen to the drop event
         blank.addEventListener('drop', event => {
             event.preventDefault();
-            blank.classList.remove('droppable'); // Remove the visual cue when dropping
-
+            // Check if the blank does not have already another word in it to prevent more than one word to go be dropped in the same blank
             if (event.target.className === 'blanks' && !blank.firstChild) {
-                
+                // add the word to the blank as a child
                 blank.appendChild(dragged);
                 blank.classList.add('dropped');
                 dragged.classList.add('dropped');
+                // reset the dragged element so it can be used again
                 dragged = null;
             }
         });
     });
 }
+
+
 // Declare a function to get the ids from the words in the answer provided by the user
-//Those ids will be used to validate the answer in a different function
+// Those ids will be used to validate the answer in a different function
 function getIdsFromAnswer (){
+    //convert the list of children elements into an array with the spread operator [...]
     const blanksArray= [...blanksContainer.children];
     let answerCode = "";
+    //iterate through the array get the id of each word dropped by the user and concatenate it to the value of answerCode
     blanksArray.forEach((blank) => {
         answerCode += blank.firstChild.id;
   
     })
     // console.log(`answ code from getidapp: `, answerCode);
-    return answerCode;
+    return answerCode; // it will return a string with numbers in it eg: "2314"
 }
+
+
 // Declare function to validate answer
 function validateAnswer(){
+    // get the answer key from the sentence object and store it into answerKey
     const answerKey = sentenceObject.orderOfWords;
-    console.log(`answerKey: `, answerKey);
+    // get the answer code from the user and store it into userAnswer
     const userAnswer = getIdsFromAnswer();
-    console.log(`user answer key: `, userAnswer)
+    // Convert strings with numbers into numbers and compare them
     if(parseInt(answerKey) === parseInt(userAnswer)){
         return true;
     }
@@ -263,15 +244,19 @@ function validateAnswer(){
     }
 }
 
+
+// Declare function to submit the answers and display feedback
 function submitAnswer() {
+    // add event listener to the submit button
     submit.addEventListener('click', (event) => {
         submit.classList.add('hide');
         dislplayFeedback();   
-        nextButton.classList.remove('hide');
-      
+        nextButton.classList.remove('hide');      
     })
 }
 
+
+// Declare function to display feedback 
 function dislplayFeedback() {
     const isCorrect = validateAnswer();
     if(!isCorrect){
@@ -285,9 +270,11 @@ function dislplayFeedback() {
         feedback.classList.remove('hide')
     }
 }
+
+
+// Declare function to 
 function nextSentence() {
-    nextButton.addEventListener('click', (event) => {
-        
+    nextButton.addEventListener('click', (event) => {        
         sentenceNumber++;
         sentenceObject = getSentenceObject(sentenceNumber);
         displayShuffledWords(sentenceObject);
@@ -295,7 +282,4 @@ function nextSentence() {
         resetApp();
 
     });
-}
-function updatePoints() {
-//TO-DO
 }
