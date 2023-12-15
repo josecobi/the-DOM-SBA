@@ -54,8 +54,17 @@ const sentencesArray = [
     },
 ];
 
+
 // Create variables to manipulate the DOM
+//Variables for  username form 
 const $ = document.querySelector.bind(document);
+const usernameField = $("#userNameDisplay");
+const errorDisplay = document.querySelector("#errorDisplay");
+const submitNameButton = document.getElementById("submitName");
+const userNameDisplay = document.getElementById("userNameDisplay");
+
+
+//Variables for the game 
 const startButton = document.getElementById("start-button"); 
 const instructions = $("#instructions");
 const gameContainer = $(".game-container");
@@ -72,6 +81,59 @@ let numberOfBlanks = null;
 let sentenceNumber = 0;
 let sentenceObject = getSentenceObject(sentenceNumber);
 
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>FUNCTIONS FOR THE USERNAME FORM<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+function validateUsername() {
+    let nameVal = usernameField.value;
+    
+    // Make a copy of the username to work with it without changing the original value
+    let nameCopy = nameVal.slice(0);
+    // Create an array of characters from the username to iterate through it and check requirements
+    const chars = nameCopy.split("");
+  
+    // Check for the lenght of the username provided by the user
+    if(chars.length < 4){
+      errorDisplay.innerHTML =
+        "<span>The username must be at least four characters long</span>";
+      errorDisplay.style.display = "block";
+      usernameField.focus();
+      return false;
+    }
+    
+    let unique = [];
+    chars.forEach((char) => {
+      //if the character is not in unique append it to it
+      if (!unique.includes(char)) {
+        unique.push(char);
+      }
+      //if the character exists in unique remove it from it
+      else(unique.pop(char));
+    });
+  
+    // Check if the username contains at least 2 unique characters. If it doesn't, display feedback and return false.
+    if (unique.length < 2) {
+      errorDisplay.innerHTML =
+        "<span>The username must contain at least two unique characters</span>";
+      errorDisplay.style.display = "block";
+      usernameField.focus();
+      return false;
+    }
+    // Check if the username contains special characters. If so, display feedback and return false.
+    let specialChars =/[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~]/g;
+    
+    if(specialChars.test(nameVal) === true){
+      errorDisplay.innerHTML =
+        "<span>The username cannot contain any special characters or whitespace</span>";
+      errorDisplay.style.display = "block";
+      usernameField.focus();
+      return false;
+    }
+  
+    errorDisplay.style.display = "none";
+    return nameVal;
+}
+
+
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>>FUNCTIONS FOR THE GAME<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 //Add event listener to the start button to start the game
 submit.classList.add("hide");
 wordsContainer.classList.add("hide");    
@@ -79,7 +141,6 @@ wordsContainer.classList.add("hide");
 //run the main function
 startButton.addEventListener("click", startGame);
       
-
 //Declare the main function of the app
 function startGame(evt){
 startButton.classList.add("hide");
@@ -90,6 +151,7 @@ droppableBlanks()
 submitAnswer()   
 nextSentence()
 }
+
 
 //Declare helper functions
 function resetApp(){
@@ -110,6 +172,8 @@ function resetApp(){
     dragged = null;
     displayShuffledWords(sentenceObject);
 }
+
+
 //Get the object that contains the information of the sentence located at the index provided of the array.
 function getSentenceObject(index){
     return sentencesArray[index];
@@ -163,6 +227,8 @@ function displayShuffledWords(sentenceObj){
     }
 
 }
+
+
 // Declare function to nake words draggable
 function dragWord() {
     // Convert wordsContainer's children(Span) into an array of html elements using the spread operator [...parent.children] so I can iterate through them
