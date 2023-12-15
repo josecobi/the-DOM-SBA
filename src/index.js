@@ -56,7 +56,7 @@ const sentencesArray = [
 
 // Create variables to manipulate the DOM
 const $ = document.querySelector.bind(document);
-const startButton = $("#start-button"); 
+const startButton = document.getElementById("start-button"); 
 const instructions = $("#instructions");
 const gameContainer = $(".game-container");
 const questionContainer = $("#question-container");
@@ -67,10 +67,11 @@ const blanks = $('.blanks');
 const wordsContainer = $('#words-container');
 const feedback = $("#answerFeedback");
 const submit = $("#submit");
+const gameOverMessage = $(".game-over-message");
 let dragged = null;
 let numberOfBlanks = null;
 let sentenceNumber = 0;
-const sentenceObject = getSentenceObject(sentenceNumber);
+let sentenceObject = getSentenceObject(sentenceNumber);
 
 //Add event listener to the start button to start the game
 submit.classList.add("hide");
@@ -89,7 +90,7 @@ evt.preventDefault();
 resetApp()
 // Call function to display shuffled words
 // const sentenceObject = getSentenceObject(sentenceNumber);
-displayShuffledWords(sentenceObject);
+// displayShuffledWords(sentenceObject);
 
 // add event listener for drag and drop to the words
 dragWord()
@@ -98,6 +99,8 @@ dragWord()
 //make blanks a droppable zone
     //when a word is dropped, transfer data to the blank
 droppableBlanks()
+
+submitAnswer()
     
 // add event listener for submit/finish button
 // Hide submit button
@@ -109,29 +112,32 @@ droppableBlanks()
 
 // Show next button
 // add event listener for the next button
+nextSentence()
 }
 
 //Declare helper functions
 function resetApp(){
     // Reset state
     wordsContainer.innerHTML = '';
-    if(blanks){
-        // console.log("blanks: ", blanks);
-        blanks.innerHTML = '';
-        blanks.className = 'blanks';
+    wordsContainer.classList.remove('hide');
+    console.log("resetApp wordsCont; ", wordsContainer);
+    if (blanksContainer.firstChild) {
+        // Remove all child nodes from the blanks container
+        while (blanksContainer.firstChild) {
+            blanksContainer.firstChild.remove();
+        }
     }
     answerFeedback.innerHTML = '';
-    submitClicked = false;    
     nextButton.classList.add("hide");
     
     answerFeedback.classList.remove("feedback-wrong");
     answerFeedback.classList.remove("feedback-correct");
     dragged = null;
+    displayShuffledWords(sentenceObject);
 }
 //Get the object that contains the information of the sentence located at the index provided of the array.
-function getSentenceObject(IndexOfsentenceObj){
-    console.log(sentencesArray[IndexOfsentenceObj]);
-    return sentencesArray[IndexOfsentenceObj];
+function getSentenceObject(index){
+    return sentencesArray[index];
 }
 
 //Declare a function to display shuffled words
@@ -166,19 +172,21 @@ function displayShuffledWords(sentenceObj){
         });
         // show the submit button
         submit.classList.remove("hide");
-        sentenceNumber++;
+        // sentenceNumber++;
+        droppableBlanks();
+
     }
 
-    // else {
-    //     // Handle end of questions
-    //     wordsContainer.classList.add("hide");
-    //     submit.classList.add("hide");
-    //     instructions.classList.add("hide");
-    //     blanks.classList.add("hide");
-    //     document.querySelector(".end-of-game-message").classList.remove("hide");
-    //     document.querySelector(".game-score").textContent = "Your Score: " +  (currentTotalPoints * 100 / questionsSelected.length) + "%";
-    //     console.log("END OF GAME!");                            
-    // }
+    else {
+        // Handle end of questions
+        wordsContainer.classList.add("hide");
+        submit.classList.add("hide");
+        instructions.classList.add("hide");
+        blanks.classList.add("hide");
+        gameOverMessage.classList.remove("hide");
+        document.querySelector(".game-score").textContent = "Your Score: " +  (currentTotalPoints * 100 / questionsSelected.length) + "%";
+        console.log("END OF GAME!");                            
+    }
 
 }
 // Declare function to nake words draggable
@@ -198,26 +206,36 @@ function dragWord() {
    
 }
 
-// Declare function to make blanks droppable 
+
 function droppableBlanks() {
-    // children into an array
-    const blanksArray= [...blanksContainer.children];
+    const blanksArray = [...blanksContainer.children];
 
     blanksArray.forEach((blank) => {
         blank.addEventListener('dragover', event => {
-            event.preventDefault()
-            
-            if(event.target.className === 'blanks' && !blank.firstChild){
+            event.preventDefault();
+            if (event.target.className === 'blanks' && !blank.firstChild) {
+                blank.classList.add('droppable'); // Optionally, add a visual cue for a droppable area
+            }
+        });
+
+        blank.addEventListener('dragleave', event => {
+            event.preventDefault();
+            blank.classList.remove('droppable'); // Remove the visual cue when leaving the droppable area
+        });
+
+        blank.addEventListener('drop', event => {
+            event.preventDefault();
+            blank.classList.remove('droppable'); // Remove the visual cue when dropping
+
+            if (event.target.className === 'blanks' && !blank.firstChild) {
+                
                 blank.appendChild(dragged);
                 blank.classList.add('dropped');
-                event.dataTransfer.getData('id', dragged.id);
                 dragged.classList.add('dropped');
+                dragged = null;
             }
-            
         });
-           
     });
-   
 }
 // Declare a function to get the ids from the words in the answer provided by the user
 //Those ids will be used to validate the answer in a different function
@@ -234,8 +252,10 @@ function getIdsFromAnswer (){
 // Declare function to validate answer
 function validateAnswer(){
     const answerKey = sentenceObject.orderOfWords;
-    const userAnswer = getIdsFromAnswer ();
-    if(answerKey === userAnswer){
+    console.log(`answerKey: `, answerKey);
+    const userAnswer = getIdsFromAnswer();
+    console.log(`user answer key: `, userAnswer)
+    if(parseInt(answerKey) === parseInt(userAnswer)){
         return true;
     }
     else{
@@ -246,6 +266,36 @@ function validateAnswer(){
 function submitAnswer() {
     submit.addEventListener('click', (event) => {
         submit.classList.add('hide');
-        validateAnswer()
+        dislplayFeedback();   
+        nextButton.classList.remove('hide');
+      
     })
+}
+
+function dislplayFeedback() {
+    const isCorrect = validateAnswer();
+    if(!isCorrect){
+        feedback.textContent = "¡Uy, casi!";
+        feedback.classList.add("feedback-wrong");
+        feedback.classList.remove('hide')
+    }
+    else {
+        feedback.textContent = "¡Perfecto!"
+        feedback.classList.add("feedback-correct");  
+        feedback.classList.remove('hide')
+    }
+}
+function nextSentence() {
+    nextButton.addEventListener('click', (event) => {
+        
+        sentenceNumber++;
+        sentenceObject = getSentenceObject(sentenceNumber);
+        displayShuffledWords(sentenceObject);
+        nextButton.classList.add('hide');
+        resetApp();
+
+    });
+}
+function updatePoints() {
+//TO-DO
 }
