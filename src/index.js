@@ -58,10 +58,12 @@ const sentencesArray = [
 // Create variables to manipulate the DOM
 //Variables for  username form 
 const $ = document.querySelector.bind(document);
+const usernameFormContainer = $(".usernameFormContainer");
 const usernameField = $("#userName");
 const errorDisplay = document.querySelector("#errorDisplay");
 const submitNameButton = document.getElementById("submitName");
 const userNameDisplay = document.getElementById("userNameDisplay");
+
 
 
 //Variables for the game 
@@ -135,7 +137,7 @@ function validateUsername() {
     
     errorDisplay.style.display = "none";
     
-    userNameDisplay.textContent = `Welcome, ${userName.value}! \n are you ready to show your prowess in Spanish?`;
+    userNameDisplay.textContent = `Welcome, ${userName.value}! Are you ready to show your prowess in Spanish?`;
    
     return nameVal;
 }
@@ -151,14 +153,16 @@ startButton.addEventListener("click", startGame);
       
 //Declare the main function of the app
 function startGame(evt){
-userNameDisplay.classList.add('hide');    
-startButton.classList.add("hide");
-evt.preventDefault();   
-resetApp()
-dragWord()
-droppableBlanks()
-submitAnswer()   
-nextSentence()
+    instructions.classList.remove('hide')
+    usernameFormContainer.classList.add('hide'); 
+    userNameDisplay.classList.add('hide');    
+    startButton.classList.add("hide");
+    evt.preventDefault();   
+    resetApp()
+    dragWord()
+    droppableBlanks()
+    submitAnswer()   
+    nextSentence()
 }
 
 
@@ -231,7 +235,9 @@ function displayShuffledWords(sentenceObj){
         blanksContainer.classList.add("hide");
        
         feedback.classList.add('hide');
+        window.blur();
         alert("GAME OVER");
+        
         console.log("GAME OVER");                            
     }
 
