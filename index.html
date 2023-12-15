@@ -14,7 +14,16 @@
 
     </header>
     <main class="py-5">
+
+        <div class="usernameFormContainer">
+            <label for="userName">Your Name:</label>
+            <input type="text" id="userName" name="userName" placeholder="Enter your name">
+            <button id="submitName">Submit</button>
+            <span id="errorDisplay"></span>
+
+        </div>
         <div class="game-container">
+            <div id="userNameDisplay" class=""></div>
             <form>
                 <div id="question-container" class="hide">
                     <h6 id="instructions">Order the words to make a sentece:</h6>
