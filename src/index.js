@@ -58,7 +58,7 @@ const sentencesArray = [
 // Create variables to manipulate the DOM
 //Variables for  username form 
 const $ = document.querySelector.bind(document);
-const usernameField = $("#userNameDisplay");
+const usernameField = $("#userName");
 const errorDisplay = document.querySelector("#errorDisplay");
 const submitNameButton = document.getElementById("submitName");
 const userNameDisplay = document.getElementById("userNameDisplay");
@@ -81,7 +81,12 @@ let numberOfBlanks = null;
 let sentenceNumber = 0;
 let sentenceObject = getSentenceObject(sentenceNumber);
 
-//>>>>>>>>>>>>>>>>>>>>>>>>>>>FUNCTIONS FOR THE USERNAME FORM<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+//>>>>>>>>>>>>>>>>>>>>>>>>>>>LOGIC FOR THE USERNAME FORM<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+submitNameButton.addEventListener("click", (event) => {
+    console.log("clicked");
+    validateUsername();
+});
+//Declare form validation function
 function validateUsername() {
     let nameVal = usernameField.value;
     
@@ -127,8 +132,11 @@ function validateUsername() {
       usernameField.focus();
       return false;
     }
-  
+    
     errorDisplay.style.display = "none";
+    
+    userNameDisplay.textContent = `Welcome, ${userName.value}! \n are you ready to show your prowess in Spanish?`;
+   
     return nameVal;
 }
 
@@ -137,12 +145,13 @@ function validateUsername() {
 //Add event listener to the start button to start the game
 submit.classList.add("hide");
 wordsContainer.classList.add("hide");    
-
+instructions.classList.add("hide");
 //run the main function
 startButton.addEventListener("click", startGame);
       
 //Declare the main function of the app
 function startGame(evt){
+userNameDisplay.classList.add('hide');    
 startButton.classList.add("hide");
 evt.preventDefault();   
 resetApp()
