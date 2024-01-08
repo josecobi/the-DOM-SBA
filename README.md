@@ -2,7 +2,7 @@
 
 ## Overview
 
-Spanish Hub is a web application that helps users practice and enhance their Spanish language skills through an interactive game. The game challenges users to arrange words in the correct order to form coherent Spanish sentences. Each sentence is associated with a hint to guide users in constructing the correct sentence.
+"Order the Words" is an application that helps users practice and enhance their Spanish language skills through an interactive game. The game challenges users to arrange words in the correct order to form coherent Spanish sentences. Each sentence is associated with a hint to guide users in constructing the correct sentence. This app will be included in the ongoing project [SpanishHub](https://github.com/josecobi/SpanishHub).
 
 ## Game Rules
 
