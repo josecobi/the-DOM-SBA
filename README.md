@@ -9,15 +9,15 @@
 
 ![Screenshot 2024-01-08 160517](https://github.com/josecobi/the-DOM-SBA/assets/58313777/547f8854-4385-4f7b-8302-505ff711baee)
 
-![Screenshot 2024-01-08 160527](https://github.com/josecobi/the-DOM-SBA/assets/58313777/e9b048b2-f628-48d2-855e-0b764e008f7a)
+![Screenshot 2024-01-08 161239](https://github.com/josecobi/the-DOM-SBA/assets/58313777/3c0f3048-521d-4716-bba2-e882b43a67ac)
 
-![Screenshot 2024-01-08 160856](https://github.com/josecobi/the-DOM-SBA/assets/58313777/33bd8f5f-1932-4443-9952-e226f4794546)
+![Screenshot 2024-01-08 161343](https://github.com/josecobi/the-DOM-SBA/assets/58313777/0b5837c1-df7d-4dcb-ac9a-ff7a0541b866)
 
-![Screenshot 2024-01-08 160713](https://github.com/josecobi/the-DOM-SBA/assets/58313777/3537030c-544c-4f9b-a831-b826919850cc)
+![Screenshot 2024-01-08 161443](https://github.com/josecobi/the-DOM-SBA/assets/58313777/fc64cc9f-6a4f-4dcc-beab-17ee45ccd71e)
 
-![Screenshot 2024-01-08 160729](https://github.com/josecobi/the-DOM-SBA/assets/58313777/eb4bac7b-4d6d-49d9-9700-ec8e6b65e196)
+![Screenshot 2024-01-08 161449](https://github.com/josecobi/the-DOM-SBA/assets/58313777/7e8f4958-a042-48d1-a91d-c35a57ddeaf8)
 
-![Screenshot 2024-01-08 160749](https://github.com/josecobi/the-DOM-SBA/assets/58313777/c7f9be8c-8d42-43fa-85ba-26b870f6bdf9)
+![Screenshot 2024-01-08 161503](https://github.com/josecobi/the-DOM-SBA/assets/58313777/7fc6aeeb-3267-4043-a5d5-356dbe03dbe6)
 
 ## Game Rules
 
