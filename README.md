@@ -4,6 +4,21 @@
 
 "Order the Words" is an application that helps users practice and enhance their Spanish language skills through an interactive game. The game challenges users to arrange words in the correct order to form coherent Spanish sentences. Each sentence is associated with a hint to guide users in constructing the correct sentence. This app will be included in the ongoing project [SpanishHub](https://github.com/josecobi/SpanishHub).
 
+## Screenshots
+![Screenshot 2024-01-08 160503](https://github.com/josecobi/the-DOM-SBA/assets/58313777/8e0efe96-0d94-4198-a1b2-84fc24e60b2a)
+
+![Screenshot 2024-01-08 160517](https://github.com/josecobi/the-DOM-SBA/assets/58313777/547f8854-4385-4f7b-8302-505ff711baee)
+
+![Screenshot 2024-01-08 160527](https://github.com/josecobi/the-DOM-SBA/assets/58313777/e9b048b2-f628-48d2-855e-0b764e008f7a)
+
+![Screenshot 2024-01-08 160856](https://github.com/josecobi/the-DOM-SBA/assets/58313777/33bd8f5f-1932-4443-9952-e226f4794546)
+
+![Screenshot 2024-01-08 160713](https://github.com/josecobi/the-DOM-SBA/assets/58313777/3537030c-544c-4f9b-a831-b826919850cc)
+
+![Screenshot 2024-01-08 160729](https://github.com/josecobi/the-DOM-SBA/assets/58313777/eb4bac7b-4d6d-49d9-9700-ec8e6b65e196)
+
+![Screenshot 2024-01-08 160749](https://github.com/josecobi/the-DOM-SBA/assets/58313777/c7f9be8c-8d42-43fa-85ba-26b870f6bdf9)
+
 ## Game Rules
 
 1. **Username Submission:**
